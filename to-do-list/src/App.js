@@ -1,25 +1,24 @@
-
 import './App.css';
-import Todo from './todo'
+import React , {useState} from 'react'
+import TodoForm from './components/todoForm'
+import Todolist from './components/todolist'
+
 
 function App() {
 
-  // let [state , setState] = useState(0)
+  const [todos , setTodos] = useState([]);
 
-  const renderToDo = () => {
-    console.log(<Todo></Todo>);
+  const addTodo = (todo) => {
+    setTodos([todo, ...todos])
   }
 
   return (
     <>
       <h1>TO DO LIST</h1>
-      <div className='input-container'>
-        <input></input>
-        <button onClick = {renderToDo}>Add</button>
-      </div>
-      <div className='line'></div>
-      <Todo></Todo>
+      <TodoForm addTodo={addTodo} />
+      <Todolist todos = {todos} />
     </>
+ 
   );
 }
 
