@@ -1,0 +1,14 @@
+h1{
+  margin-left: 30px;
+}
+.board{
+  height: 30px;
+  width: 30px;
+  border: 1px solid black;
+  display: grid;
+}
+.boardContainer {
+  margin-left: 30px;
+  display: flex;
+  flex-direction: row;
+}
