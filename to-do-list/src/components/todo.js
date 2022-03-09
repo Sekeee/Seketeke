@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Todo = (todo) => {
+const Todo = ({todo}) => {
     return (
         <div style ={{ display : 'flex'}}>
             <input type = 'checkbox'/>
