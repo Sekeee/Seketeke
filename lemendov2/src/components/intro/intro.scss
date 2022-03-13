@@ -1,0 +1,100 @@
+@import "../../global.scss";
+
+.intro{
+    background-color: white;
+    display: flex;
+    
+    @include mobile{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .left{
+        flex:0.5;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .imgContainer{
+            width: 80%;
+            height: 80%;
+            overflow: hidden;
+            background-color: crimson;
+            border: 10px black solid;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+
+            @include mobile {
+                align-items: flex-start;
+            }
+
+            img{
+                height: 80%;
+                width: 80%;
+                animation: rotating 20s linear infinite;
+
+                @include mobile {
+                    height: 50%;
+                }
+            }
+        
+            @keyframes rotating {
+                from{
+                    transform: rotate(0deg);
+                }
+                to{
+                    transform: rotate(360deg);
+                }
+            }
+        }
+        
+    }
+    .right{
+        flex: 0.5;
+        position: relative;
+        
+        .wrapper{
+            height: 100%;
+            width: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding-left: 50px;
+
+            h1{
+                font-size: 60px;
+                margin: 10px 0px;
+                font-weight: 700;
+            }
+            p{
+                font-size: 35px;
+                margin: 10px 0;
+
+                span{
+                    font-size: inherit;
+                    color: crimson;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        a{
+            position: absolute;
+            bottom: 10px;
+            img{
+                height: 50px;
+                width: 50px;
+                animation: arrowBlink 2s infinite;
+            }
+            @keyframes arrowBlink{
+                100%{
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}
