@@ -1,9 +1,11 @@
 import React from 'react'
+import './weatherapi.scss';
+
 const axios = require('axios');
-// import './weatherapi.scss';
 
 export default function WeatherAPI({ setData }) {
-    
+
+    let concatArray = []
     let currentweathers = []
     let weathers = []
     let array = []
@@ -25,37 +27,37 @@ export default function WeatherAPI({ setData }) {
                         coordinate: el.geometry.coordinates,
                     })
                 })
-                // console.log(array);
 
                 array.forEach((el, i) => {
-                    
+
                     axios.get(`https://api.darksky.net/forecast/81d38b9c958eb018e01083a72b0926b5/${array[i].coordinate[1]},${array[i].coordinate[0]}`)
                         .then(function (weather) {
-                            
-                            weather.data.hourly.data.forEach((element , index) => {
+
+                            weather.data.daily.data.forEach((element, index) => {
                                 weathers.push({
                                     name: el.name,
-                                    time: new Date(element.time),
-                                    icon : element.icon,
-                                    temperature : element.apparentTemperature,
+                                    time: new Date(element.time*1000),
+                                    icon: element.icon,
+                                    temperature: Math.round((element.apparentTemperatureHigh - 32) * 5/9),
                                 })
                             })
                             currentweathers.push({
                                 current: {
-                                    name : el.name,
-                                    currentTime : weather.data.currently.time,
-                                    currentIcon : weather.data.currently.icon,
-                                    currentTemperature : weather.data.currently.apparentTemperature,
+                                    name: el.name,
+                                    currentTime: weather.data.currently.time,
+                                    currentIcon: weather.data.currently.icon,
+                                    currentTemperature: Math.round((weather.data.currently.apparentTemperature - 32) * 5/9),
                                 }
-                                    
+
                             })
-                            finalData.push(currentweathers);
-                            finalData.push(weathers)
+                            concatArray = currentweathers.concat(weathers)
+                            weathers = [];
+                            currentweathers = [];
+                            finalData.push(concatArray)
                         })
-                        
-                    })
-                    console.log(finalData);
-                    setData(weathers)
+
+                })
+                setTimeout( () => setData(finalData) , 1000 )
                 array = [];
             })
     }
