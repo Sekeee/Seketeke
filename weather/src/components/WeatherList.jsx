@@ -2,6 +2,7 @@ import React from 'react'
 
 export default function WeatherList({ data }) {
 
+    
     if (data === undefined)
         return (
             <div>
@@ -11,7 +12,7 @@ export default function WeatherList({ data }) {
     return (
         <div>
             {data.map(el => (
-                 <div key={el.id}> The current temperature of {el.placename} is now {el.temperature} </div>
+                <div key={el.id}> The current temperature of {el.placename} is now {el.temperature} </div>
             ))}
         </div>
     )

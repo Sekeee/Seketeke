@@ -3,12 +3,13 @@ const axios = require('axios');
 // import './weatherapi.scss';
 
 export default function WeatherAPI({ setData }) {
-
+    
+    let currentweathers = []
     let weathers = []
     let array = []
     let city
+    let finalData = []
 
-    // const [ data, setData ] = useState([])
 
     const handleInput = (e) => {
         city = e.target.value
@@ -20,29 +21,41 @@ export default function WeatherAPI({ setData }) {
             .then(function (data) {
                 data.data.features.forEach((el, index) => {
                     array.push({
-                        placename: el.place_name,
+                        name: el.text,
                         coordinate: el.geometry.coordinates,
-                        feelsLike: el.apparentTemperature,
-                        id: index
                     })
                 })
-                let reducedArray = array.filter((el, i) => el.coordinate)
+                // console.log(array);
 
-                reducedArray.forEach((el, i) => {
-                    axios.get(`https://api.darksky.net/forecast/81d38b9c958eb018e01083a72b0926b5/${reducedArray[i].coordinate[1]},${reducedArray[i].coordinate[0]}`)
+                array.forEach((el, i) => {
+                    
+                    axios.get(`https://api.darksky.net/forecast/81d38b9c958eb018e01083a72b0926b5/${array[i].coordinate[1]},${array[i].coordinate[0]}`)
                         .then(function (weather) {
-                            // console.log(`Current temperature of ${reducedArray[i].placename} is now ` + Math.round((weather.data.currently.temperature - 32) * 5 / 9))
-                            // console.log(`But feels like ${Math.round((weather.data.currently.apparentTemperature - 32) * 5 / 9)} due to wind`);
-                            weathers.push({
-                                placename: reducedArray[i].placename,
-                                temperature: Math.round((weather.data.currently.temperature - 32) * 5 / 9),
-                                id: reducedArray[i].id
-                            })
                             
+                            weather.data.hourly.data.forEach((element , index) => {
+                                weathers.push({
+                                    name: el.name,
+                                    time: new Date(element.time),
+                                    icon : element.icon,
+                                    temperature : element.apparentTemperature,
+                                })
+                            })
+                            currentweathers.push({
+                                current: {
+                                    name : el.name,
+                                    currentTime : weather.data.currently.time,
+                                    currentIcon : weather.data.currently.icon,
+                                    currentTemperature : weather.data.currently.apparentTemperature,
+                                }
+                                    
+                            })
+                            finalData.push(currentweathers);
+                            finalData.push(weathers)
                         })
-                })
-                setData(weathers)
-                console.log(weathers);
+                        
+                    })
+                    console.log(finalData);
+                    setData(weathers)
                 array = [];
             })
     }
