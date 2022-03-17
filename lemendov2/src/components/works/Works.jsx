@@ -30,8 +30,8 @@ export default function Works() {
   ]
 
   const handleClick = (way) => {
-    way === 'left' ? setCurrentSlide(currentSlide > 0 ? currentSlide-1 : data.length -1) :
-    setCurrentSlide(currentSlide < data.length -1 ? currentSlide +1 : 0)
+    way === 'right' ? setCurrentSlide(currentSlide > 0 ? currentSlide - 1 : data.length -1) :
+    setCurrentSlide(currentSlide < data.length -1 ? currentSlide + 1 : 0)
     console.log(currentSlide);
   };
 
@@ -45,7 +45,7 @@ export default function Works() {
             <div className="left">
               <div className="leftContainer">
                 <div className="imgContainer">
-                  <img src={d.icon } alt="" />
+                  <img src={ d.icon } alt="" />
                 </div>
                 <h2> { d.title } </h2>
                 <p> { d.desc } </p>
@@ -58,8 +58,8 @@ export default function Works() {
           </div>
         </div>))}
       </div>
-      <img src="assets/down.svg" className='arrow left' alt="" onClick={() => handleClick('left')} />
-      <img src="assets/down.svg" className='arrow right' alt="" onClick={() => handleClick()} />
+      <img src="assets/down.svg" className='arrow left' alt="" onClick={() => handleClick()} />
+      <img src="assets/down.svg" className='arrow right' alt="" onClick={() => handleClick('right')} />
     </div>
   )
 }
