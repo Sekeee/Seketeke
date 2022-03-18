@@ -11,20 +11,20 @@ export default function GiphyList() {
     const [loading , setLoading] = useState(false);
     const [list , setList] = useState([]);
 
+
     useEffect(() => {
         setLoading(true);
-
-        axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${key}&q=${keyword}&limit=10&offset=0&rating=g&lang=en`)
-        .then(function(data) {
-            let listArr = [];
-            data.data.data.forEach((el , i) => {
-                listArr.push(el.images.original.url);
+            axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${key}&q=${keyword}&limit=10&offset=0&rating=g&lang=en`)
+            .then(function(data) {
+                let listArr = [];
+                data.data.data.forEach((el , i) => {
+                    listArr.push(el.images.original.url);
+                })
+                setList(listArr)
+                setLoading(false);
+            }).catch(() => {
+                setLoading(false);
             })
-            setList(listArr)
-            setLoading(false);
-        }).catch(() => {
-            setLoading(false);
-        })
     } , [keyword])
 
     const handleInput = (e) => {
@@ -34,7 +34,7 @@ export default function GiphyList() {
     return (
     <>
         <input onChange={handleInput}/>
-        { (!loading) ? list.map((gifUrl) => <Giphy url = {gifUrl}></Giphy> ) : <div> loading... </div>}
+        { (!loading) ? list.map((gifUrl) => <Giphy url = {gifUrl}></Giphy> ) : <div> loading... </div> }
     </>
   )
 }
