@@ -56,6 +56,7 @@ export default function MapApi() {
     }, [pos]);
 
     const toggleMapMode = () => {
+
         setNightMode(!nightMode);
     }
 

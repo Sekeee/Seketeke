@@ -6,26 +6,35 @@ export default function Login() {
     const [value, setValue] = useState('');
     const [sentCode, setSentCode] = useState(false);
 
-    const recaptchaVerifier = useRef();
-    const confirmationResult = useRef();
+    let recaptchaVerifier = useRef();
+    let confirmationResult = useRef();
 
     useEffect(() => {
         const auth = getAuth();
-        window.recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
+        recaptchaVerifier = new RecaptchaVerifier('recaptcha-container', {}, auth);
     }, [])
 
     const onClickCheck = async () => {
         const auth = getAuth();
         const phoneNumber = value
+        console.log(phoneNumber);
 
-        confirmationResult.current = await signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier.current)
+        confirmationResult.current = signInWithPhoneNumber(auth, phoneNumber, recaptchaVerifier.current)
+        .catch((e) => {
+            console.log(e);
+        })
+        
         setValue('');
         setSentCode(true);
     }
 
     const checkCode = async () => {
         const code = value;
-        await confirmationResult.current.confirm(code);
+        const result = await confirmationResult.confirm(code)
+        .catch((e) => {
+            console.log(e);
+        })
+        console.log(result);
     }
 
     return (
@@ -40,7 +49,7 @@ export default function Login() {
                 ) : (
                     <div>
                         <input type="text" placeholder='Insert code' value={value} onChange= {(e) => setValue(e.target.value)} />
-                        <button onClick={checkCode}></button>
+                        <button onClick={checkCode}> Login </button>
                     </div>
                 )
     }
